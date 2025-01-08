@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foro Comunitario de Pensionissste</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            color: #0072B1;
+            text-align: center;
+        }
+        .comment-section {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .comment {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        #commentsList {
+            margin-top: 20px;
+        }
+        #commentInput {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        #addCommentButton {
+            padding: 10px 20px;
+            background-color: #0072B1;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        #addCommentButton:hover {
+            background-color: #005f8c;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>💬 Foro Comunitario de Pensionissste</h1>
+    <div class="comment-section">
+        <h2>👉 Cuéntanos un poco sobre tu experiencia con el sistema de pensiones:</h2>
+        <input type="text" id="commentInput" placeholder="Escribe tu comentario aquí..." />
+        <button id="addCommentButton" onclick="addComment()">Agregar Comentario</button>
+    </div>
+
+    <div class="comment-section">
+        <h2>Comentarios:</h2>
+        <div id="commentsList"></div>
+    </div>
+
+    <script>
+        function addComment() {
+            const commentInput = document.getElementById('commentInput');
+            const commentText = commentInput.value.trim();
+
+            if (commentText) {
+                // Enviar el comentario a Google Sheets usando un POST
+                fetch('https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec', {
+                    method: 'POST',
+                    body: new URLSearchParams({
+                        comment: commentText
+                    })
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    alert('Comentario guardado');
+                    loadComments();  // Cargar comentarios después de agregar uno nuevo
+                })
+                .catch(error => console.error('Error:', error));
+                commentInput.value = ''; // Limpiar campo
+            } else {
+                alert("Por favor, escribe un comentario.");
+            }
+        }
+
+        function loadComments() {
+            fetch('https://script.google.com/macros/s/YOUR_SCRIPT_URL/exec')
+                .then(response => response.json())
+                .then(data => {
+                    // Actualiza la vista con los comentarios
+                    const commentsSection = document.getElementById('commentsList');
+                    commentsSection.innerHTML = data.map(comment => `<div class="comment">${comment[1]}</div>`).join('');
+                });
+        }
+
+        // Cargar comentarios al inicio
+        loadComments();
+    </script>
+
+</body>
+</html>
