@@ -71,7 +71,7 @@
 
             if (commentText) {
                 // Enviar el comentario a Google Sheets usando un POST
-                fetch('https://script.google.com/macros/s/AKfycbxtC63V2_wQJNTqG2n4MyZ2lYsO6B93HlRLdzGqM2QuwkD6lCWyrhMmXsenXiUz_dBG/exec', {
+                fetch('https://docs.google.com/spreadsheets/d/1ullFkzGAxkVii-y-_RQZWJB4ojfQ793P4t89ykoyw5s/edit?gid=0#gid=0', {
                     method: 'POST',
                     body: new URLSearchParams({
                         comment: commentText
@@ -91,7 +91,7 @@
         }
 
         function loadComments() {
-            fetch('https://script.google.com/macros/s/AKfycbxtC63V2_wQJNTqG2n4MyZ2lYsO6B93HlRLdzGqM2QuwkD6lCWyrhMmXsenXiUz_dBG/exec')
+            fetch('https://docs.google.com/spreadsheets/d/1ullFkzGAxkVii-y-_RQZWJB4ojfQ793P4t89ykoyw5s/edit?gid=0#gid=0')
                 .then(response => response.json())
                 .then(data => {
                     // Actualiza la vista con los comentarios
